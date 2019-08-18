@@ -3,10 +3,14 @@
            https://api.github.com/users/<your name>
 */
 //const axios = require('axios');
-let user = {}
+var userInfo = {}
 axios.get('https://api.github.com/users/wtrawlings')
-    .then(response => console.log(response))
-    .catch(error => {
+    .then(response => {
+        console.log(createCard(response.data))
+            //user = response.data
+    })
+
+.catch(error => {
         console.error(error)
     })
     /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -59,7 +63,8 @@ const createCard = user => {
     card.classList.add('card');
 
     const img = document.createElement('img');
-    img.src = user['avatar_url'];
+    //img.src = user['avatar_url'];
+    img.setAttribute('src', user['avatar_url']);
 
     const cardInfo = document.createElement('div');
     cardInfo.classList.add('card-info');
@@ -68,22 +73,37 @@ const createCard = user => {
     h3.classList.add('name');
     h3.textContent = user.name || "See UserName";
 
-    for (let i = 0, i < 6, i++) {
+    const pTags = [];
+    for (let i = 0; i < 6; i++) {
         pTags.push(document.createElement('p'));
     }
     pTags[0].classList.add('username');
     pTags[0].textContent = user.login;
 
-    pTags[1].textContent = `location: ${user.location || "not available"}`;
+    pTags[1].textContent = `location: ${user.location || "Not Available"}`;
 
     pTags[2].textContent = `Profile: `;
-
     const a = document.createElement('a');
-    const aUrl
+    const aURL = user['html_url'];
+    a.href = aURL;
+    pTags[2].appendChild(a);
+
+    pTags[3].textContent = `followers: ${user.followers}`
+    pTags[4].textContent = `following: ${user.following}`
+    pTags[5].textContent = `Bio: ${user.bio || "Not Available"}`
+
+    cardInfo.appendChild(h3);
+    pTags.forEach(p => cardInfo.appendChild(p));
+    card.appendChild(img);
+    card.appendChild(cardInfo);
+
+
+
+    return card;
 
 }
 
-
+//console.log(createCard(userInfo));
 
 /* List of LS Instructors Github username's: 
   tetondan
