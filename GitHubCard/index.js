@@ -40,7 +40,7 @@ function iterateGetRequest(array) {
     for (let i = 0; i < array.length; i++) {
         axios.get(`https://api.github.com/users/${array[i]}`)
             .then(response => {
-                console.log('hello world');
+                console.log(response.data);
 
                 cards.appendChild(createCard(response.data));
             })
@@ -107,7 +107,7 @@ function createCard(user) {
     profile.textContent = `Profile: `;
     const anchor = document.createElement('a');
     const aURL = user.html_url;
-    anchor.setAttribute.href = aURL; //this didn't work.
+    anchor.href = aURL;
     anchor.textContent = aURL;
     //The Profile needed both a setAttribute for the LINK and textContent for the visible part of the text that serves as the physical link. The link part didn't work still. Not sure why.
 
